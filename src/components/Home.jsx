@@ -69,7 +69,7 @@ const Home = ({ onLogin }) => {
             <input
               type="text"
               placeholder="Name"
-              className="w-full px-4 py-2 rounded-lg bg-dark bg-opacity-30 text-white placeholder-gray-700 focus:outline-none"
+              className="w-full px-4 py-2 rounded-lg bg-white bg-opacity-30 text-dark placeholder-gray-700 focus:outline-none"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
