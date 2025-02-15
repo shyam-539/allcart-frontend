@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Card, Button, Form, InputGroup, Row, Col, Container } from "react-bootstrap";
+import {
+  Card,
+  Button,
+  Form,
+  InputGroup,
+  Row,
+  Col,
+  Container,
+} from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { Search } from 'lucide-react';
-import '../product.css';
+import { Search } from "lucide-react";
+import "../product.css";
 
 const Product = ({ onAddToCart }) => {
   const [products, setProducts] = useState([]);
@@ -25,11 +33,14 @@ const Product = ({ onAddToCart }) => {
       }
 
       try {
-        const response = await axios.get("https://allcart-backend.onrender.com/api/products", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(
+          "https://allcart-backend.onrender.com/api/products",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         setProducts(response.data);
         setFilteredProducts(response.data);
         setLoading(false);
@@ -52,7 +63,7 @@ const Product = ({ onAddToCart }) => {
     // Search filter
     if (searchTerm) {
       result = result.filter(
-        product =>
+        (product) =>
           product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
           product.description.toLowerCase().includes(searchTerm.toLowerCase())
       );
@@ -62,13 +73,15 @@ const Product = ({ onAddToCart }) => {
     if (priceFilter !== "all") {
       switch (priceFilter) {
         case "under500":
-          result = result.filter(product => product.price < 500);
+          result = result.filter((product) => product.price < 500);
           break;
         case "500-1000":
-          result = result.filter(product => product.price >= 500 && product.price <= 1000);
+          result = result.filter(
+            (product) => product.price >= 500 && product.price <= 1000
+          );
           break;
         case "over1000":
-          result = result.filter(product => product.price > 1000);
+          result = result.filter((product) => product.price > 1000);
           break;
         default:
           break;
@@ -78,20 +91,21 @@ const Product = ({ onAddToCart }) => {
     // Rating filter
     if (ratingFilter !== "all") {
       const minRating = parseInt(ratingFilter);
-      result = result.filter(product => product.rating >= minRating);
+      result = result.filter((product) => product.rating >= minRating);
     }
 
     setFilteredProducts(result);
   }, [searchTerm, priceFilter, ratingFilter, products]);
 
-  if (loading) return (
-    <div className="d-flex justify-content-center align-items-center min-vh-100">
-      <div className="spinner-border text-primary" role="status">
-        <span className="visually-hidden">Loading...</span>
+  if (loading)
+    return (
+      <div className="d-flex justify-content-center align-items-center min-vh-100">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
       </div>
-    </div>
-  );
-  
+    );
+
   if (error) return <div className="alert alert-danger m-3">{error}</div>;
 
   return (
@@ -110,7 +124,7 @@ const Product = ({ onAddToCart }) => {
           </InputGroup>
         </Col>
         <Col md={6} lg={4}>
-          <Form.Select 
+          <Form.Select
             value={priceFilter}
             onChange={(e) => setPriceFilter(e.target.value)}
             className="mb-3"
@@ -141,33 +155,33 @@ const Product = ({ onAddToCart }) => {
           <p>Try adjusting your search or filters</p>
         </div>
       ) : (
-        <Row xs={1} md={2} lg={3} xl={4} className="g-4">
+        <Row xs={1} md={2} lg={3} xl={4} className="gap-4">
           {filteredProducts.map((product) => (
             <Col key={product._id}>
-              <Card className="h-100 shadow-sm hover-shadow transition-all">
-                <div className="position-relative">
+              <Card className="h-100 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                <div className="relative">
                   <Card.Img
                     variant="top"
                     src={product.url}
-                    style={{
-                      height: "200px",
-                      objectFit: "contain",
-                      padding: "1rem"
-                    }}
+                    className="h-52 object-contain p-4"
                   />
-                  <span className="position-absolute top-0 end-0 bg-primary text-white px-2 py-1 m-2 rounded-pill">
+                  <span className="absolute top-2 right-2 bg-blue-500 text-white px-2 py-1 rounded-full">
                     ★ {product.rating}
                   </span>
                 </div>
-                <Card.Body className="d-flex flex-column">
-                  <Card.Title className="h5 mb-2">{product.name}</Card.Title>
-                  <Card.Text className="text-muted mb-3 flex-grow-1">
+                <Card.Body className="flex flex-col">
+                  <Card.Title className="text-lg font-semibold mb-2">
+                    {product.name}
+                  </Card.Title>
+                  <Card.Text className="text-gray-600 mb-3 flex-grow">
                     {product.description}
                   </Card.Text>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <h4 className="mb-0 text-primary">₹{product.price}/-</h4>
+                  <div className="flex justify-between items-center">
+                    <h4 className="text-xl font-bold text-blue-600">
+                      ₹{product.price}/-
+                    </h4>
                     <Button
-                      variant="outline-primary"
+                      className="border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white transition-all"
                       onClick={() => onAddToCart(product)}
                     >
                       Add to Cart
