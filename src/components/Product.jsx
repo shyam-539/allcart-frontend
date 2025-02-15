@@ -20,7 +20,7 @@ const Product = ({ onAddToCart }) => {
       }
 
       try {
-        const response = await axios.get("https://products-backend-slgn.onrender.com/products", {
+        const response = await axios.get("https://allcart-backend.onrender.com/api/products", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -30,6 +30,11 @@ const Product = ({ onAddToCart }) => {
       } catch (err) {
         setError("Failed to load products");
         setLoading(false);
+        // If token is invalid, redirect to login
+        if (err.response?.status === 401 || err.response?.status === 403) {
+          localStorage.removeItem("token");
+          navigate("/login");
+        }
       }
     };
 
@@ -41,15 +46,20 @@ const Product = ({ onAddToCart }) => {
 
   return (
     <div className="product-list">
-      {products.map((product, key) => (
-        <Card key={key} style={{ margin: "10px" }}>
+      {products.map((product) => (
+        <Card key={product._id} style={{ margin: "10px" }}>
           <Card.Img
             variant="top"
-            style={{ height: "250px", width: "100%", objectFit: "contain",padding:"10px" }}
+            style={{ 
+              height: "250px", 
+              width: "100%", 
+              objectFit: "contain",
+              padding: "10px" 
+            }}
             src={product.url}
           />
           <Card.Body>
-            <Card.Title>{product.title}</Card.Title>
+            <Card.Title>{product.name}</Card.Title>
             <Card.Text>{product.description}</Card.Text>
             <Card.Text className="text-success">
               Rating: {product.rating}
@@ -60,7 +70,7 @@ const Product = ({ onAddToCart }) => {
             <Button
               variant="primary"
               className="mt-2"
-              onClick={() => onAddToCart(product)} // Call the function passed from App.js
+              onClick={() => onAddToCart(product)}
             >
               Add to Cart
             </Button>

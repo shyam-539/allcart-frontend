@@ -14,18 +14,23 @@ const Home = ({ onLogin }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage('');
+
     if (isLogin) {
       if (!email || !password) {
         setErrorMessage('Please fill in all fields');
         return;
       }
       try {
-        const response = await axios.post('https://products-backend-slgn.onrender.com/login', { email, password });
+        const response = await axios.post('https://allcart-backend.onrender.com/api/auth/login', {
+          email,
+          password
+        });
         localStorage.setItem('token', response.data.token);
         onLogin();
         navigate('/product');
       } catch (error) {
-        setErrorMessage('Invalid credentials');
+        setErrorMessage(error.response?.data?.error || 'Invalid credentials');
       }
     } else {
       if (!name || !email || !password) {
@@ -33,11 +38,18 @@ const Home = ({ onLogin }) => {
         return;
       }
       try {
-        const response = await axios.post('https://products-backend-slgn.onrender.com/user', { name, email, password });
-        alert(response.data.message);
+        const response = await axios.post('https://allcart-backend.onrender.com/api/auth/register', {
+          name,
+          email,
+          password
+        });
+        alert('Registration successful! Please login.');
         setIsLogin(true);
+        setName('');
+        setEmail('');
+        setPassword('');
       } catch (error) {
-        setErrorMessage('Signup failed');
+        setErrorMessage(error.response?.data?.error || 'Registration failed');
       }
     }
   };
@@ -46,8 +58,12 @@ const Home = ({ onLogin }) => {
     <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-r from-green-400 to-blue-500">
       <h1 className="text-white text-4xl font-bold mb-6">Allcart</h1>
       <div className="bg-white bg-opacity-10 backdrop-blur-md p-8 rounded-xl shadow-lg w-96">
-        <h2 className="text-center text-2xl font-semibold text-white mb-4">{isLogin ? 'Welcome Back' : 'Sign Up'}</h2>
-        {errorMessage && <p className="text-red-400 text-center mb-2">{errorMessage}</p>}
+        <h2 className="text-center text-2xl font-semibold text-white mb-4">
+          {isLogin ? 'Welcome Back' : 'Sign Up'}
+        </h2>
+        {errorMessage && (
+          <p className="text-red-400 text-center mb-2">{errorMessage}</p>
+        )}
         <form onSubmit={handleSubmit} className="space-y-4">
           {!isLogin && (
             <input
@@ -90,7 +106,16 @@ const Home = ({ onLogin }) => {
         </form>
         <p className="text-center text-white mt-4">
           {isLogin ? "New user? " : "Already have an account? "}
-          <button className="underline" onClick={() => setIsLogin(!isLogin)}>
+          <button 
+            className="underline" 
+            onClick={() => {
+              setIsLogin(!isLogin);
+              setErrorMessage('');
+              setEmail('');
+              setPassword('');
+              setName('');
+            }}
+          >
             {isLogin ? "Sign up" : "Login"}
           </button>
         </p>
