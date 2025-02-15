@@ -180,7 +180,7 @@ const Product = ({ onAddToCart }) => {
                       ₹{product.price}/-
                     </h4>
                     <Button
-                      className="border border-blue-300 text-green-500 hover:bg-blue-500 hover:text-white transition-all"
+                      className="border border-blue-300 text-white-500 hover:bg-blue-500 hover:text-white transition-all"
                       onClick={() => onAddToCart(product)}
                     >
                       Add to Cart
