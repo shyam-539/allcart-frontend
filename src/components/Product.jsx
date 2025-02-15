@@ -11,7 +11,6 @@ import {
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { Search } from "lucide-react";
-import "../product.css";
 
 const Product = ({ onAddToCart }) => {
   const [products, setProducts] = useState([]);
