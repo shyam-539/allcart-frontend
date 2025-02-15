@@ -58,7 +58,7 @@ const Home = ({ onLogin }) => {
     <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-r from-green-400 to-blue-500">
       <h1 className="text-white text-4xl font-bold mb-6">Allcart</h1>
       <div className="bg-white bg-opacity-10 backdrop-blur-md p-8 rounded-xl shadow-lg w-96">
-        <h2 className="text-center text-2xl font-semibold text-white mb-4">
+        <h2 className="text-center text-2xl font-semibold text-dark mb-4">
           {isLogin ? 'Welcome Back' : 'Sign Up'}
         </h2>
         {errorMessage && (
@@ -69,7 +69,7 @@ const Home = ({ onLogin }) => {
             <input
               type="text"
               placeholder="Name"
-              className="w-full px-4 py-2 rounded-lg bg-white bg-opacity-30 text-white placeholder-gray-300 focus:outline-none"
+              className="w-full px-4 py-2 rounded-lg bg-dark bg-opacity-30 text-white placeholder-gray-700 focus:outline-none"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
@@ -77,7 +77,7 @@ const Home = ({ onLogin }) => {
           <input
             type="email"
             placeholder="Email"
-            className="w-full px-4 py-2 rounded-lg bg-white bg-opacity-30 text-white placeholder-gray-300 focus:outline-none"
+            className="w-full px-4 py-2 rounded-lg bg-white bg-opacity-30 text-dark placeholder-gray-700 focus:outline-none"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -85,7 +85,7 @@ const Home = ({ onLogin }) => {
             <input
               type={showPassword ? 'text' : 'password'}
               placeholder="Password"
-              className="w-full px-4 py-2 rounded-lg bg-white bg-opacity-30 text-white placeholder-gray-300 focus:outline-none"
+              className="w-full px-4 py-2 rounded-lg bg-white bg-opacity-30 text-dark placeholder-gray-700 focus:outline-none"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
