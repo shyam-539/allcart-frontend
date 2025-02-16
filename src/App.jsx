@@ -6,9 +6,9 @@ import {
   Navigate,
   Route,
 } from "react-router-dom";
-import Home from "./components/Home";
-import Product from "./components/Product";
-import Cart from "./components/Cart";
+import Home from "./components/home/Home";
+import Product from "./components/product/Product";
+import Cart from "./components/cart/Cart";
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
 import axios from 'axios';
+import "./home.css";
 
 const Home = ({ onLogin }) => {
   const navigate = useNavigate();
